@@ -78,8 +78,6 @@ function Install-GUI-Apps {
 
     $apps = @(
         # 基盤
-        "Logitech.GHUB",
-        "Google.Drive",
         "Google.JapaneseIME",
         "Microsoft.PowerToys",
         # ブラウザ
@@ -97,7 +95,6 @@ function Install-GUI-Apps {
         "Notion.Notion",
         "Obsidian.Obsidian",
         # 連絡
-        "LINE.LINE",
         "Discord.Discord",
         "Mozilla.Thunderbird",
         "Amazon.Kindle",

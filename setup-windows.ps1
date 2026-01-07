@@ -3,7 +3,6 @@
 
 $ErrorActionPreference = "Stop"
 
-
 function Install-Scoop {
     Write-Host "`n[1/4] Setting up Scoop..." -ForegroundColor Cyan
     if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
@@ -24,13 +23,15 @@ function Install-Scoop {
 
             # Complete all-user Scoop installation
             scoop install scoop
-        } else {
+        }
+        else {
             Write-Host "Running as regular user. Attempting current-user Scoop installation."
             # For current-user installation of Scoop when running as regular user
             Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
             Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
         }
-    } else {
+    }
+    else {
         Write-Host "Scoop is already installed."
     }
 
@@ -62,7 +63,8 @@ function Install-CLI-Tools {
         if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
             Write-Host "Installing $app..."
             scoop install $app
-        } else {
+        }
+        else {
             Write-Host "$app is already installed."
         }
     }
@@ -86,7 +88,8 @@ function Install-GUI-Apps {
         if (-not $installed) {
             Write-Host "Installing $id..."
             winget install --id $id -e --source winget --accept-source-agreements --accept-package-agreements
-        } else {
+        }
+        else {
             Write-Host "$id is already installed."
         }
     }
@@ -101,7 +104,7 @@ function Setup-Symlinks {
     Write-Host "`n[4/4] Linking Dotfiles..." -ForegroundColor Cyan
     
     $dotfiles = "$env:USERPROFILE\DotFiles"
-    $config   = "$env:USERPROFILE\.config"
+    $config = "$env:USERPROFILE\.config"
     
     if (-not (Test-Path $config)) { New-Item -ItemType Directory -Path $config | Out-Null }
 
@@ -110,7 +113,8 @@ function Setup-Symlinks {
         param($Src, $Dest)
         if (Test-Path $Dest) {
             Write-Host "  Skipping $Dest (already exists)" -ForegroundColor DarkGray
-        } else {
+        }
+        else {
             Write-Host "  Linking $Dest -> $Src"
             New-Item -ItemType SymbolicLink -Path $Dest -Value $Src | Out-Null
         }
@@ -140,10 +144,12 @@ function Setup-Symlinks {
         if ($content -notmatch "DotFiles\\powershell\\profile.ps1") {
             Write-Host "  Appending to existing PowerShell profile..."
             Add-Content -Path $PROFILE -Value "`n$loadCmd"
-        } else {
+        }
+        else {
             Write-Host "  PowerShell profile already configured." -ForegroundColor DarkGray
         }
-    } else {
+    }
+    else {
         Write-Host "  Creating PowerShell profile..."
         Set-Content -Path $PROFILE -Value $loadCmd
     }

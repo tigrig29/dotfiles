@@ -46,6 +46,9 @@ function Install-CLI-Tools {
     # If you want to add more apps, just add them to this array
     $apps = @(
         "git",
+        "gh",
+        "ghq",
+        "nvm",
         "neovim",
         "gcc",        # Needed for nvim-treesitter
         "ripgrep",    # Needed for Telescope/fzf
@@ -74,12 +77,32 @@ function Install-GUI-Apps {
     Write-Host "`n[3/4] Installing GUI apps via Winget..." -ForegroundColor Cyan
 
     $apps = @(
-        "wez.wezterm",                # WezTerm
-        "Microsoft.VisualStudioCode", # Visual Studio Code
-        "Unity.UnityHub",             # Unity Hub
-        "TigerVNC.TigerVNC",          # TigerVNC
-        "Discord.Discord",            # Discord
-        "Brave.Brave"                 # Brave Browser
+        # 基盤
+        "Logitech.GHUB",
+        "Google.Drive",
+        "Google.JapaneseIME",
+        "Microsoft.PowerToys",
+        # ブラウザ
+        "Google.Chrome",
+        "Brave.Brave",
+        "Mozilla.Firefox",
+        # 開発
+        "wez.wezterm",
+        "gerardog.gsudo",
+        "Microsoft.VisualStudioCode",
+        "Unity.UnityHub",
+        "Figma.Figma",
+        "HandBrake.HandBrake",
+        # ノート
+        "Notion.Notion",
+        "Obsidian.Obsidian",
+        # 連絡
+        "LINE.LINE",
+        "Discord.Discord",
+        "Mozilla.Thunderbird",
+        "Amazon.Kindle",
+        #ゲーム
+        "Valve.Steam"
     )
 
     foreach ($id in $apps) {
@@ -93,11 +116,6 @@ function Install-GUI-Apps {
             Write-Host "$id is already installed."
         }
     }
-
-    # Font (Moralerspace Neon is recommended in your config, but trying a generic Nerd Font via Scoop is safer for automation)
-    # If you want Moralerspace specifically, you might need to download it manually or find a specific scoop bucket.
-    # Installing a fallback font just in case:
-    # scoop install Hack-NF
 }
 
 function Setup-Symlinks {

@@ -8,8 +8,9 @@ Set-Alias -Name g -Value git -Option None
 Set-Alias -Name cod -Value code-insiders -Option None
 Set-Alias -Name sudo -Value gsudo -Option None
 Set-Alias -Name dn -Value dotnet -Option None
-Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
+Set-Alias -Name v -Value nvim -Option None
 
+Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None

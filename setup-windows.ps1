@@ -90,7 +90,6 @@ function Install-GUI-Apps {
         "Microsoft.VisualStudioCode",
         "Unity.UnityHub",
         "Figma.Figma",
-        "HandBrake.HandBrake",
         # ノート
         "Notion.Notion",
         "Obsidian.Obsidian",
@@ -156,7 +155,7 @@ function Setup-Symlinks {
     
     if (Test-Path $PROFILE) {
         $content = Get-Content $PROFILE -Raw
-        if ($content -notmatch "DotFiles\\powershell\\profile.ps1") {
+        if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
             Write-Host "  Appending to existing PowerShell profile..."
             Add-Content -Path $PROFILE -Value "`n$loadCmd"
         }

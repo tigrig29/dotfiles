@@ -1,3 +1,25 @@
+# Settings =============================================================
+
+[System.Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
+[System.Console]::InputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
+$env:LESSCHARSET = "utf-8"
+
+# 検索候補を一覧表示
+Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+# Variables
+$global:pc = '@{-1}'
+$global:me = 'TigRig'
+
+# Disable beep sound
+Set-PSReadlineOption -BellStyle None
+
+# Disable UpdateCheck
+$env:POWERSHELL_UPDATECHECK = 'Off'
+
+# PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
+Set-PSReadlineOption -PredictionViewStyle ListView
+
 # Aliases =============================================================
 
 Set-Alias -Name cd -Value Push-Location -Option AllScope
@@ -80,28 +102,6 @@ Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock {
     Invoke-HistoryFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
-
-# Settings =============================================================
-
-[System.Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
-[System.Console]::InputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
-$env:LESSCHARSET = "utf-8"
-
-# 検索候補を一覧表示
-Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
-
-# Variables
-$global:pc = '@{-1}'
-$global:me = 'TigRig'
-
-# Disable beep sound
-Set-PSReadlineOption -BellStyle None
-
-# Disable UpdateCheck
-$env:POWERSHELL_UPDATECHECK = 'Off'
-
-# PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
-Set-PSReadlineOption -PredictionViewStyle ListView
 
 # Module =============================================================
 

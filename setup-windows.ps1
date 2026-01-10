@@ -117,7 +117,7 @@ function Install-GUI-Apps {
 function Setup-Symlinks {
     Write-Host "`n[4/4] Linking Dotfiles..." -ForegroundColor Cyan
     
-    $dotfiles = (Get-Location).Path
+    $dotfiles = Split-Path -Parent $PSCommandPath
     $config = "$env:USERPROFILE\.config"
     
     if (-not (Test-Path $config)) { New-Item -ItemType Directory -Path $config | Out-Null }
@@ -155,6 +155,10 @@ function Setup-Symlinks {
     
     if (Test-Path $PROFILE) {
         $content = Get-Content $PROFILE -Raw
+        if ($null -eq $content) {
+            $content = ''
+        }
+        
         if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
             Write-Host "  Appending to existing PowerShell profile..."
             Add-Content -Path $PROFILE -Value "`n$loadCmd"

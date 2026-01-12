@@ -7,10 +7,6 @@ $env:LESSCHARSET = "utf-8"
 # 検索候補を一覧表示
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
-# Variables
-$global:pc = '@{-1}'
-$global:me = 'TigRig'
-
 # Disable beep sound
 Set-PSReadlineOption -BellStyle None
 

@@ -1,0 +1,153 @@
+[core]
+  autoCRLF = false
+  ignorecase = false
+	editor = nvim
+  pager = delta
+
+[user]
+  name = TigRig
+  email = tigrig.crex@gmail.com
+
+[interactive]
+  diffFilter = delta --color-only
+
+[alias]
+  # add, commit
+  a = add
+  aa = add -A
+  c = commit
+  cm = commit -m
+  ca = commit --amend
+  cac = commit --amend -C HEAD
+  cf = commit --fixup
+  acfr = "!f() { git add -A; git commit --fixup $1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1^; }; f"
+  cfr = "!f() { git commit --fixup $1; GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $1^; }; f"
+  ac = "!f(){ git add -A; git commit ;}; f"
+  aca = "!f(){ git add -A; git commit --amend ;}; f"
+  acac = "!f(){ git add -A; git commit --amend -C HEAD ;}; f"
+  acf = "!f(){ git add -A; git commit --fixup $1 ;}; f"
+  acm = "!f(){ git add -A; git commit -m \"$1\" ;}; f"
+  save = "!f(){ git add -A; git commit -m 'save' ;}; f"
+  # fetch, push, pull
+  f = fetch
+  fp = fetch --prune
+  ps = push
+  psu = "!f(){ git push -u origin $1 ;}; f"
+  ps--f = push -f
+  pl = pull
+  # ブランチ操作
+  b = branch
+  s = switch
+  sc = switch -c
+  sp = switch -
+  bd = branch --delete
+  bdp = branch -
+  b--d = branch -D
+  bdori = "!f(){ git rev-parse --abbrev-ref HEAD | xargs git push --delete origin $1 ;}; f"
+  bm = branch -M
+  sdef = "!f(){ git remote show origin | grep 'HEAD branch' | awk '{print $NF}' | xargs git switch ;}; f"
+  spl = "!f(){ git switch $1; git pull ;}; f"
+  scpu = "!f(){ git switch -c $1; git push -u origin $1 ;}; f"
+  bdd = "!f(){ git branch --delete $1; git push --delete origin $1;}; f"
+  bcl = "!f(){ git fetch --prune; git branch | xargs git branch -d ;}; f"
+  bd-origin-all = "!f(){ git branch -r | grep \"$1\" | sed 's/origin\\///' | xargs -I {} git push origin --delete {} ;}; f"
+  # cherry-pick
+  chp = cherry-pick
+  # tag
+  t = tag
+  tp = push --tag
+  td = tag -d
+  tdall = "!f(){ git tag -l | xargs git tag -d ;}; f"
+  tdp = push origin --delete
+  # マージ操作
+  m = merge --no-edit
+  ma = merge --abort
+  mc = merge --continue
+  mn = merge --no-ff --no-edit
+  mp = merge --no-edit -
+  mnp = merge --no-edit --no-ff -
+  smp = "!f(){ git switch $1; git pull origin $1; get merge -;}; f"
+  smnp = "!f(){ git switch $1; git pull origin $1; get merge --no-ff -;}; f"
+  smrp
+  # diff
+  d = difftool
+  dw = diff --word-diff --ignore-all-space
+  dn = diff --name-only
+  dnum = "!f(){ git diff --numstat $1..$2;}; f"
+  dnumh = "!f(){ git diff --numstat $1..HEAD;}; f"
+  # stash
+  st = stash
+  stp = stash pop
+  stk = stash --keep-index  # not staged なファイルだけ退避
+  stu = stash --include-untracked  # untracked なファイルも退避
+  stku = stash -k -u  # untracked も含め、 not staged なファイルだけ退避
+  stap = "!f(){ git stash apply stash@{$1};}; f"
+  stdr = "!f(){ git stash drop stash@{$1};}; f"
+  # rebase
+  r = rebase
+  ri = "!f(){ git rebase -i HEAD~$1 ;}; f"  # git ri 4 → 4 つ前までのコミットを対象とする
+  rif = "!f(){ git rebase -i --autosquash HEAD~$1 ;}; f"  # ri の autosquash 版
+  ra = rebase --abort
+  rc = rebase --continue
+  # reset
+  rs = reset
+  rss = "!f(){ git reset --soft HEAD~$1 ;}; f"
+  rsh = "!f(){ git reset --hard HEAD~$1 ;}; f"
+  # config
+  co = config
+  coge = config --global -e
+  alias = config --get-regexp ^alias.
+  # log
+  l = log
+  lo = log --oneline
+  # restore / clean
+  re = restore
+  cl = clean
+  recl = "!f(){ git restore .; git clean -df ;}; f"
+  # status
+  sta = status
+  # 情報表示系
+  hash = show --format='%h' --no-patch
+  curb = rev-parse --abbrev-ref HEAD # カレントブランチ名
+  ucl = shortlog -nse --no-merges # ユーザーごとのコミット数
+
+  # 一時的な定義
+  s-m = switch main
+  mn-m = mn main
+  r-m = rebase main
+
+[push]
+  default = current
+  autoSetupRemote = true
+
+[pull]
+  ff = only
+
+[merge]
+  conflictStyle = zdiff3
+
+[diff]
+  tool = cod
+
+[difftool "cod"]
+  cmd = cod.cmd --reuse-window --diff $LOCAL $REMOTE
+
+[difftool]
+  prompt = false
+
+[winUpdater]
+  recentlySeenVersion = 2.26.1.windows.1
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  dark = true     
+  side-by-side = true # or light = true, or omit for auto-detection
+
+[ghq]
+  root = D:/TigRig/repos/ghq

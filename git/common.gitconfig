@@ -150,4 +150,4 @@
   side-by-side = true # or light = true, or omit for auto-detection
 
 [ghq]
-  root = D:/TigRig/repos/ghq
+  root = D:/TigRig/repos

@@ -3,7 +3,6 @@
 
 $ErrorActionPreference = "Stop"
 
-
 function Install-Scoop {
     Write-Host "`n[1/4] Setting up Scoop..." -ForegroundColor Cyan
     if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
@@ -24,13 +23,15 @@ function Install-Scoop {
 
             # Complete all-user Scoop installation
             scoop install scoop
-        } else {
+        }
+        else {
             Write-Host "Running as regular user. Attempting current-user Scoop installation."
             # For current-user installation of Scoop when running as regular user
             Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
             Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
         }
-    } else {
+    }
+    else {
         Write-Host "Scoop is already installed."
     }
 
@@ -45,6 +46,9 @@ function Install-CLI-Tools {
     # If you want to add more apps, just add them to this array
     $apps = @(
         "git",
+        "gh",
+        "ghq",
+        "nvm",
         "neovim",
         "gcc",        # Needed for nvim-treesitter
         "ripgrep",    # Needed for Telescope/fzf
@@ -62,7 +66,8 @@ function Install-CLI-Tools {
         if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
             Write-Host "Installing $app..."
             scoop install $app
-        } else {
+        }
+        else {
             Write-Host "$app is already installed."
         }
     }
@@ -72,12 +77,28 @@ function Install-GUI-Apps {
     Write-Host "`n[3/4] Installing GUI apps via Winget..." -ForegroundColor Cyan
 
     $apps = @(
-        "wez.wezterm",                # WezTerm
-        "Microsoft.VisualStudioCode", # Visual Studio Code
-        "Unity.UnityHub",             # Unity Hub
-        "TigerVNC.TigerVNC",          # TigerVNC
-        "Discord.Discord",            # Discord
-        "Brave.Brave"                 # Brave Browser
+        # 基盤
+        "Google.JapaneseIME",
+        "Microsoft.PowerToys",
+        # ブラウザ
+        "Google.Chrome",
+        "Brave.Brave",
+        "Mozilla.Firefox",
+        # 開発
+        "wez.wezterm",
+        "gerardog.gsudo",
+        "Microsoft.VisualStudioCode",
+        "Unity.UnityHub",
+        "Figma.Figma",
+        # ノート
+        "Notion.Notion",
+        "Obsidian.Obsidian",
+        # 連絡
+        "Discord.Discord",
+        "Mozilla.Thunderbird",
+        "Amazon.Kindle",
+        #ゲーム
+        "Valve.Steam"
     )
 
     foreach ($id in $apps) {
@@ -86,23 +107,19 @@ function Install-GUI-Apps {
         if (-not $installed) {
             Write-Host "Installing $id..."
             winget install --id $id -e --source winget --accept-source-agreements --accept-package-agreements
-        } else {
+        }
+        else {
             Write-Host "$id is already installed."
         }
     }
-
-    # Font (Moralerspace Neon is recommended in your config, but trying a generic Nerd Font via Scoop is safer for automation)
-    # If you want Moralerspace specifically, you might need to download it manually or find a specific scoop bucket.
-    # Installing a fallback font just in case:
-    # scoop install Hack-NF
 }
 
 function Setup-Symlinks {
     Write-Host "`n[4/4] Linking Dotfiles..." -ForegroundColor Cyan
-    
-    $dotfiles = "$env:USERPROFILE\DotFiles"
-    $config   = "$env:USERPROFILE\.config"
-    
+
+    $dotfiles = Split-Path -Parent $PSCommandPath
+    $config = "$env:USERPROFILE\.config"
+
     if (-not (Test-Path $config)) { New-Item -ItemType Directory -Path $config | Out-Null }
 
     # Helper function to create symlink
@@ -110,7 +127,8 @@ function Setup-Symlinks {
         param($Src, $Dest)
         if (Test-Path $Dest) {
             Write-Host "  Skipping $Dest (already exists)" -ForegroundColor DarkGray
-        } else {
+        }
+        else {
             Write-Host "  Linking $Dest -> $Src"
             New-Item -ItemType SymbolicLink -Path $Dest -Value $Src | Out-Null
         }
@@ -129,23 +147,50 @@ function Setup-Symlinks {
     # $PROFILE is usually Documents\PowerShell\Microsoft.PowerShell_profile.ps1
     $psDir = Split-Path $PROFILE
     if (-not (Test-Path $psDir)) { New-Item -ItemType Directory -Path $psDir | Out-Null }
-    
+
     # Instead of replacing the profile, we source our dotfiles profile
     # Using format operator -f to avoid escaping issues
     $profilePath = "$dotfiles\powershell\profile.ps1"
     $loadCmd = '. "{0}"' -f $profilePath
-    
+
     if (Test-Path $PROFILE) {
         $content = Get-Content $PROFILE -Raw
-        if ($content -notmatch "DotFiles\\powershell\\profile.ps1") {
+        if ($null -eq $content) {
+            $content = ''
+        }
+
+        if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
             Write-Host "  Appending to existing PowerShell profile..."
             Add-Content -Path $PROFILE -Value "`n$loadCmd"
-        } else {
+        }
+        else {
             Write-Host "  PowerShell profile already configured." -ForegroundColor DarkGray
         }
-    } else {
+    }
+    else {
         Write-Host "  Creating PowerShell profile..."
         Set-Content -Path $PROFILE -Value $loadCmd
+    }
+
+    # 5. gitconfig
+    $gitconfigPath = "$env:USERPROFILE\.gitconfig"
+    $dotfilesGitconfigPath = "$dotfiles\git\common.gitconfig" -replace '\\', '/'
+    $includeSetting = "[include]`n  path = {0}" -f $dotfilesGitconfigPath
+
+    if (Test-Path $gitconfigPath) {
+        $content = Get-Content $gitconfigPath -Raw
+
+        if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
+            Write-Host "  Appending to existing .gitconfig..."
+            $includeSetting + "`n`n" + $content | Out-File $gitconfigPath -Encoding UTF8 -NoNewLine
+        }
+        else {
+            Write-Host "  .gitconfig already configured." -ForegroundColor DarkGray
+        }
+    }
+    else {
+        Write-Host "  Creating .gitconfig..."
+        Set-Content -Path $gitconfigPath -Value $includeSetting
     }
 }
 

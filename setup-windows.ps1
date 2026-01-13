@@ -82,23 +82,23 @@ function Install-GUI-Apps {
         "Microsoft.PowerToys",
         # ブラウザ
         "Google.Chrome",
-        "Brave.Brave",
-        "Mozilla.Firefox",
+        # "Brave.Brave",
+        # "Mozilla.Firefox",
         # 開発
         "wez.wezterm",
         "gerardog.gsudo",
         "Microsoft.VisualStudioCode",
-        "Unity.UnityHub",
+        # "Unity.UnityHub",
         "Figma.Figma",
         # ノート
         "Notion.Notion",
-        "Obsidian.Obsidian",
+        "Obsidian.Obsidian"
         # 連絡
-        "Discord.Discord",
-        "Mozilla.Thunderbird",
-        "Amazon.Kindle",
+        # "Discord.Discord",
+        # "Mozilla.Thunderbird",
+        # "Amazon.Kindle",
         #ゲーム
-        "Valve.Steam"
+        # "Valve.Steam"
     )
 
     foreach ($id in $apps) {

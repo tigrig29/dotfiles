@@ -33,7 +33,7 @@
   fp = fetch --prune
   ps = push
   psu = "!f(){ git push -u origin $1 ;}; f"
-  ps--f = push -f
+  ps--f = push --force-with-lease
   pl = pull
   # ブランチ操作
   b = branch
@@ -66,8 +66,8 @@
   mn = merge --no-ff --no-edit
   mp = merge --no-edit -
   mnp = merge --no-edit --no-ff -
-  smp = "!f(){ git switch $1; git pull origin $1; get merge -;}; f"
-  smnp = "!f(){ git switch $1; git pull origin $1; get merge --no-ff -;}; f"
+  smp = "!f(){ git switch $1; git pull origin $1; git merge -;}; f"
+  smnp = "!f(){ git switch $1; git pull origin $1; git merge --no-ff -;}; f"
   smrp
   # diff
   d = difftool
@@ -108,6 +108,7 @@
   sta = status
   # 情報表示系
   hash = show --format='%h' --no-patch
+  hashgh = "!f(){ gh repo view --json url -q ".url" | xargs -I{} echo {}/commit/$(git rev-parse HEAD) ;}; f"
   curb = rev-parse --abbrev-ref HEAD # カレントブランチ名
   ucl = shortlog -nse --no-merges # ユーザーごとのコミット数
 

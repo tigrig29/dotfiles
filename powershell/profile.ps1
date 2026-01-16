@@ -72,9 +72,7 @@ function Invoke-GhqFzf {
     }
 
     # ghq list → fzf
-    $selectedRepo = ghq list |
-    fzf `
-        --preview "bat --color=always --style=header,grid --line-range :80 `"$ghqRoot/{}/README.*`""
+    $selectedRepo = ghq list | fzf
 
     if ([string]::IsNullOrWhiteSpace($selectedRepo)) {
         return

@@ -86,6 +86,7 @@
   dnum = "!f(){ git diff --numstat $1..$2;}; f"
   dnumh = "!f(){ git diff --numstat $1..HEAD;}; f"
   dori = "!f(){ git diff origin/$(git branch --show-current); }; f"
+  dnori = "!f(){ git diff --name-only origin/$(git branch --show-current); }; f"
   # stash
   st = stash
   stp = stash pop

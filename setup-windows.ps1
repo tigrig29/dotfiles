@@ -134,16 +134,16 @@ function Setup-Symlinks {
         }
     }
 
-    # 1. Neovim
+    # Neovim
     Link-File -Src "$dotfiles\nvim" -Dest "$env:LOCALAPPDATA\nvim"
 
-    # 2. WezTerm (Using XDG standard path)
+    # WezTerm (Using XDG standard path)
     Link-File -Src "$dotfiles\wezterm" -Dest "$config\wezterm"
 
-    # 3. Starship
+    # Starship
     Link-File -Src "$dotfiles\starship.toml" -Dest "$config\starship.toml"
 
-    # 4. PowerShell Profile
+    # PowerShell Profile
     # $PROFILE is usually Documents\PowerShell\Microsoft.PowerShell_profile.ps1
     $psDir = Split-Path $PROFILE
     if (-not (Test-Path $psDir)) { New-Item -ItemType Directory -Path $psDir | Out-Null }
@@ -172,7 +172,7 @@ function Setup-Symlinks {
         Set-Content -Path $PROFILE -Value $loadCmd
     }
 
-    # 5. gitconfig
+    # gitconfig
     $gitconfigPath = "$env:USERPROFILE\.gitconfig"
     $dotfilesGitconfigPath = "$dotfiles\git\common.gitconfig" -replace '\\', '/'
     $includeSetting = "[include]`n  path = {0}" -f $dotfilesGitconfigPath
@@ -180,7 +180,7 @@ function Setup-Symlinks {
     if (Test-Path $gitconfigPath) {
         $content = Get-Content $gitconfigPath -Raw
 
-        if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
+        if ($content -notmatch "dotfiles\\git\\common.gitconfig") {
             Write-Host "  Appending to existing .gitconfig..."
             $includeSetting + "`n`n" + $content | Out-File $gitconfigPath -Encoding UTF8 -NoNewLine
         }
@@ -192,6 +192,9 @@ function Setup-Symlinks {
         Write-Host "  Creating .gitconfig..."
         Set-Content -Path $gitconfigPath -Value $includeSetting
     }
+
+    # lazygit
+    Link-File -Src "$dotfiles\git\lazygit" -Dest "$env:LOCALAPPDATA\lazygit"
 }
 
 # --- Main Execution ---

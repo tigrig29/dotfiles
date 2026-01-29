@@ -1,0 +1,5 @@
+gui:
+  language: ja
+git:
+  log:
+    showGraph: always

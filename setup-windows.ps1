@@ -94,6 +94,7 @@ function Install-GUI-Apps {
         "Notion.Notion",
         "Obsidian.Obsidian"
         # 連絡
+        "SlackTechnologies.Slack"
         # "Discord.Discord",
         # "Mozilla.Thunderbird",
         # "Amazon.Kindle",

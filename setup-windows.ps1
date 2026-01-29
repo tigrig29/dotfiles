@@ -180,7 +180,7 @@ function Setup-Symlinks {
     if (Test-Path $gitconfigPath) {
         $content = Get-Content $gitconfigPath -Raw
 
-        if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
+        if ($content -notmatch "dotfiles\\git\\common.gitconfig") {
             Write-Host "  Appending to existing .gitconfig..."
             $includeSetting + "`n`n" + $content | Out-File $gitconfigPath -Encoding UTF8 -NoNewLine
         }

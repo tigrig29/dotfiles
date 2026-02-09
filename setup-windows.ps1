@@ -50,6 +50,7 @@ function Install-CLI-Tools {
         "ghq",
         "nvm",
         "neovim",
+        "tree-sitter",
         "gcc",        # Needed for nvim-treesitter
         "ripgrep",    # Needed for Telescope/fzf
         "fd",         # Needed for Telescope/fzf

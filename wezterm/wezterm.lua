@@ -8,10 +8,10 @@ local keybinds = require("keybinds")
 config.automatically_reload_config = true
 
 -- PowerShellをデフォルトに
-config.default_prog = { 'pwsh.exe' }
+config.default_prog = { "pwsh.exe" }
 
 -- 色設定
-config.color_scheme = 'Kanagawa (Gogh)'
+config.color_scheme = "Kanagawa (Gogh)"
 
 -- ウィンドウ設定
 config.window_decorations = "RESIZE"
@@ -21,11 +21,11 @@ config.initial_rows = 30
 
 -- 右側ステータス
 wezterm.on("update-right-status", function(window, pane)
-  local date = wezterm.strftime("%H:%M:%S")
-  window:set_right_status(wezterm.format({
-    { Foreground = { Color = "#DCD7BA" } },
-    { Text = "  " .. date .. "  " },
-  }))
+	local date = wezterm.strftime("%H:%M:%S")
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#DCD7BA" } },
+		{ Text = "  " .. date .. "  " },
+	}))
 end)
 
 -- キー設定

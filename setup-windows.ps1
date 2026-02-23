@@ -89,6 +89,7 @@ function Install-GUI-Apps {
         "wez.wezterm",
         "gerardog.gsudo",
         "Microsoft.VisualStudioCode",
+        "Google.Antigravity",
         "Unity.UnityHub",
         "Figma.Figma",
         # ノート

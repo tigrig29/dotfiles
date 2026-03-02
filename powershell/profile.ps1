@@ -85,6 +85,10 @@ function Invoke-HistoryFzf {
     Invoke-Expression ((Get-Content $(Get-PSReadLineOption).HistorySavePath) | fzf)
 }
 
+function gemini-exec {
+    powershell -ExecutionPolicy Bypass -NoProfile -Command "gemini $args"
+}
+
 # KeyBindings =============================================================
 
 Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock { 
@@ -96,6 +100,8 @@ Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock {
     Invoke-HistoryFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
+
+Set-Alias -Name gmi -Value gemini-exec
 
 # Module =============================================================
 

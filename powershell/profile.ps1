@@ -32,6 +32,7 @@ Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
+Set-Alias -Name oc "$env:USERPROFILE\.bun\bin\opencode.exe"
 
 # Cmdlet =============================================================
 

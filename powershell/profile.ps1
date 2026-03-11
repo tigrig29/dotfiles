@@ -32,6 +32,7 @@ Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
+Set-Alias -Name gmi -Value gemini-exec
 Set-Alias -Name oc "$env:USERPROFILE\.bun\bin\opencode.exe"
 
 # Cmdlet =============================================================
@@ -102,7 +103,6 @@ Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 
-Set-Alias -Name gmi -Value gemini-exec
 
 # Module =============================================================
 

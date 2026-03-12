@@ -32,6 +32,8 @@ Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
+Set-Alias -Name gmi -Value gemini-exec
+Set-Alias -Name oc "$env:USERPROFILE\.bun\bin\opencode.exe"
 
 # Cmdlet =============================================================
 
@@ -85,6 +87,10 @@ function Invoke-HistoryFzf {
     Invoke-Expression ((Get-Content $(Get-PSReadLineOption).HistorySavePath) | fzf)
 }
 
+function gemini-exec {
+    powershell -ExecutionPolicy Bypass -NoProfile -Command "gemini $args"
+}
+
 # KeyBindings =============================================================
 
 Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock { 
@@ -96,6 +102,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock {
     Invoke-HistoryFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
+
 
 # Module =============================================================
 

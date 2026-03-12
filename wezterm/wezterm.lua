@@ -19,6 +19,9 @@ config.window_background_opacity = 0.9
 config.initial_cols = 120
 config.initial_rows = 30
 
+-- フォントサイズ
+config.font_size = 9.0
+
 -- 右側ステータス
 wezterm.on("update-right-status", function(window, pane)
 	local date = wezterm.strftime("%H:%M:%S")

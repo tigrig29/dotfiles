@@ -3,6 +3,7 @@
   ignorecase = false
 	editor = nvim
   pager = delta
+  mergeoptions = --no-edit
 
 [user]
   name = TigRig

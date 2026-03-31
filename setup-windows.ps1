@@ -60,7 +60,8 @@ function Install-CLI-Tools {
         "eza",        # ls replacement
         "bat",        # cat replacement
         "delta",      # git diff viewer
-        "zoxide"      # cd replacement
+        "zoxide",     # cd replacement
+        "rustup"
     )
 
     foreach ($app in $apps) {

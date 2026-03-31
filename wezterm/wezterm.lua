@@ -16,8 +16,8 @@ config.color_scheme = "Kanagawa (Gogh)"
 -- ウィンドウ設定
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.9
-config.initial_cols = 120
-config.initial_rows = 30
+config.initial_cols = 204
+config.initial_rows = 48
 
 -- フォントサイズ
 config.font_size = 9.0

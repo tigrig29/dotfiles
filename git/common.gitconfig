@@ -3,6 +3,7 @@
   ignorecase = false
 	editor = nvim
   pager = delta
+  mergeoptions = --no-edit
 
 [user]
   name = TigRig
@@ -27,7 +28,7 @@
   acac = "!f(){ git add -A; git commit --amend -C HEAD ;}; f"
   acf = "!f(){ git add -A; git commit --fixup $1 ;}; f"
   acm = "!f(){ git add -A; git commit -m \"$1\" ;}; f"
-  save = "!f(){ git add -A; git commit -m 'save' ;}; f"
+  save = "!f(){ git add -A; now=$(date '+%Y-%m-%d %H:%M:%S'); git commit -m \"save: $now\"; }; f"
   # fetch, push, pull
   f = fetch
   fp = fetch --prune

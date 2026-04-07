@@ -121,6 +121,10 @@
   recl = "!f(){ git restore .; git clean -df ;}; f"
   # status
   sta = status
+  # worktree
+  w = worktree
+  wa = worktree add
+  wr = worktree remove
   # 情報表示系
   hash = show --format='%h' --no-patch
   hashgh = "!f(){ gh repo view --json url -q ".url" | xargs -I{} echo {}/commit/$(git rev-parse HEAD) ;}; f"

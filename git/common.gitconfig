@@ -141,6 +141,7 @@
 
 [merge]
   conflictStyle = zdiff3
+  ff = false
 
 [diff]
   tool = cod

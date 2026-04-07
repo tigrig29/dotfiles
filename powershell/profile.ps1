@@ -23,6 +23,7 @@ Set-Alias -Name cdp -Value Pop-Location -Option None
 Set-Alias -Name which -Value Get-Command -Option None
 
 Set-Alias -Name g -Value git -Option None
+Set-Alias -Name lg -Value lazygit -Option None
 Set-Alias -Name cod -Value code-insiders -Option None
 Set-Alias -Name sudo -Value gsudo -Option None
 Set-Alias -Name dn -Value dotnet -Option None

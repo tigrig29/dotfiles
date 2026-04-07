@@ -54,13 +54,15 @@
   bd = branch --delete
   bdp = branch -
   b--d = branch -D
-  bdori = "!f(){ git rev-parse --abbrev-ref HEAD | xargs git push --delete origin $1 ;}; f"
+  bdori = push --delete origin
+  bd-ori = "!f(){ git rev-parse --abbrev-ref HEAD | xargs git push --delete origin $1 ;}; f"
   bm = branch -M
   sdef = "!f(){ git remote show origin | grep 'HEAD branch' | awk '{print $NF}' | xargs git switch ;}; f"
   spl = "!f(){ git switch $1; git pull ;}; f"
   scpu = "!f(){ git switch -c $1; git push -u origin $1 ;}; f"
   bdd = "!f(){ git branch --delete $1; git push --delete origin $1;}; f"
   bcl = "!f(){ git fetch --prune; git branch | xargs git branch -d ;}; f"
+  origin-all-show = "!f(){ git branch -r | grep \"$1\" | sed 's/origin\\///' ;}; f"
   bd-origin-all = "!f(){ git branch -r | grep \"$1\" | sed 's/origin\\///' | xargs -I {} git push origin --delete {} ;}; f"
   # cherry-pick
   chp = cherry-pick

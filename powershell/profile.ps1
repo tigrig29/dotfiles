@@ -16,6 +16,9 @@ $env:POWERSHELL_UPDATECHECK = 'Off'
 # PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
 Set-PSReadlineOption -PredictionViewStyle ListView
 
+# 文字コードを UTF-8 に統一
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+
 # Aliases =============================================================
 
 Set-Alias -Name cd -Value Push-Location -Option AllScope

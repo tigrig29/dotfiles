@@ -125,6 +125,23 @@
   w = worktree
   wa = worktree add
   wr = worktree remove
+  wclean = "!f() { \
+    git worktree list --porcelain | while read -r line; do \
+      if [ -z \"$line\" ]; then \
+        if [ -n \"$wt_path\" ]; then \
+          git worktree remove \"$wt_path\" --force; \
+          if [ -n \"$wt_branch\" ]; then git branch -d \"$wt_branch\"; fi; \
+        fi; \
+        wt_path=''; wt_branch=''; \
+        continue; \
+      fi; \
+      key=${line%% *}; val=${line#* }; \
+      case \"$key\" in \
+        worktree) if [ -z \"$main_path\" ]; then main_path=\"$val\"; else wt_path=\"$val\"; fi ;; \
+        branch) wt_branch=\"${val#refs/heads/}\" ;; \
+      esac; \
+    done; \
+  }; f"
   # 情報表示系
   hash = show --format='%h' --no-patch
   hashgh = "!f(){ gh repo view --json url -q ".url" | xargs -I{} echo {}/commit/$(git rev-parse HEAD) ;}; f"

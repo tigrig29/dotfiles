@@ -61,7 +61,8 @@ function Install-CLI-Tools {
         "bat",        # cat replacement
         "delta",      # git diff viewer
         "zoxide",     # cd replacement
-        "rustup"
+        "rustup",
+        "python"
     )
 
     foreach ($app in $apps) {

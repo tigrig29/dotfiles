@@ -118,16 +118,15 @@ function Set-GitWorktreeLocation {
 
 # KeyBindings =============================================================
 
-Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock { 
+Set-PSReadLineKeyHandler -Chord Alt+h -ScriptBlock { 
     Invoke-GhqFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 
-Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock { 
+Set-PSReadLineKeyHandler -Chord Alt+l -ScriptBlock { 
     Invoke-HistoryFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
-
 
 # Module =============================================================
 

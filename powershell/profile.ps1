@@ -92,7 +92,7 @@ function Invoke-HistoryFzf {
 }
 
 function gemini-exec {
-    powershell -ExecutionPolicy Bypass -NoProfile -Command "gemini $args"
+    powershell -ExecutionPolicy Bypass -Command "gemini $args"
 }
 
 function Set-GitWorktreeLocation {

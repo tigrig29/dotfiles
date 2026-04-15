@@ -40,7 +40,7 @@ Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
 Set-Alias -Name gmi -Value gemini-exec
-Set-Alias -Name oc "$env:USERPROFILE\.bun\bin\opencode.exe"
+Set-Alias -Name wtcd -Value Set-GitWorktreeLocation
 
 # Cmdlet =============================================================
 
@@ -95,21 +95,41 @@ function Invoke-HistoryFzf {
 }
 
 function gemini-exec {
-    powershell -ExecutionPolicy Bypass -NoProfile -Command "gemini $args"
+    powershell -ExecutionPolicy Bypass -Command "gemini $args"
+}
+
+function Set-GitWorktreeLocation {
+    <#
+    .SYNOPSIS
+        fzfを使用してGit worktreeを選択し、そのディレクトリに移動します。
+    #>
+    $selected = git worktree list --porcelain | ForEach-Object {
+        if ($_ -match "^worktree (.+)") { $path = $matches[1] }
+        elseif ($_ -match "^branch (.+)") {
+            $branch = $matches[1] -replace "refs/heads/", ""
+            "$path`t$branch"
+        }
+    } | fzf --height 40% --reverse --header "Select Worktree" `
+            --preview "git -C {1} log --oneline --color=always -n 10" `
+            --no-multi
+
+    if ($selected) {
+        $targetPath = $selected.Split("`t")[0]
+        Set-Location $targetPath
+    }
 }
 
 # KeyBindings =============================================================
 
-Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock { 
+Set-PSReadLineKeyHandler -Chord Alt+h -ScriptBlock { 
     Invoke-GhqFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 
-Set-PSReadLineKeyHandler -Chord Ctrl+l -ScriptBlock { 
+Set-PSReadLineKeyHandler -Chord Alt+l -ScriptBlock { 
     Invoke-HistoryFzf
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
-
 
 # Module =============================================================
 

@@ -7,9 +7,19 @@ return {
 
 		-- タブ追加
 		{ key = "t", mods = "CTRL", action = act({ SpawnTab = "CurrentPaneDomain" }) },
-
 		-- タブを閉じる
 		{ key = "w", mods = "CTRL", action = act({ CloseCurrentTab = { confirm = false } }) },
+		-- タブを移動
+		{
+			key = "PageUp",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.MoveTabRelative(-1),
+		},
+		{
+			key = "PageDown",
+			mods = "CTRL|SHIFT",
+			action = wezterm.action.MoveTabRelative(1),
+		},
 
 		-- ペイン
 

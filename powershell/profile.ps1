@@ -24,6 +24,7 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 Set-Alias -Name cd -Value Push-Location -Option AllScope
 Set-Alias -Name cdp -Value Pop-Location -Option None
 Set-Alias -Name which -Value Get-Command -Option None
+Set-Alias -Name cdb -Value Invoke-PushLocationBack -Option None
 
 Set-Alias -Name g -Value git -Option None
 Set-Alias -Name lg -Value lazygit -Option None
@@ -40,6 +41,15 @@ Set-Alias -Name gmi -Value gemini-exec
 Set-Alias -Name wtcd -Value Set-GitWorktreeLocation
 
 # Cmdlet =============================================================
+
+function Invoke-PushLocationBack {
+    param (
+        [int]$Count = 1
+    )
+    for ($i = 0; $i -lt $Count; $i++) {
+        Push-Location ../
+    }
+}
 
 function New-OrUpdateFile ($filename) {
     if ($filename) {

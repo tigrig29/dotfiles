@@ -164,6 +164,9 @@
   conflictStyle = zdiff3
   ff = false
 
+[rebase]
+  updateRefs = true
+
 [diff]
   tool = cod
 

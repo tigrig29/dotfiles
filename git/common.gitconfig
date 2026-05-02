@@ -170,6 +170,9 @@
 [diff]
   tool = cod
 
+[diff "sjis"]
+	textconv = iconv -f CP932 -t UTF-8
+
 [difftool "cod"]
   cmd = cod.cmd --reuse-window --diff $LOCAL $REMOTE
 

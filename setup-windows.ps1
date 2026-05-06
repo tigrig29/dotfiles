@@ -100,8 +100,9 @@ function Install-GUI-Apps {
         # 連絡
         "Discord.Discord",
         "Mozilla.Thunderbird",
+        "SlackTechnologies.Slack",
+        # エンタメ
         "Amazon.Kindle",
-        #ゲーム
         "Valve.Steam"
     )
 

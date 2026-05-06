@@ -137,7 +137,7 @@ function Setup-Symlinks {
             if ($DestType -eq "Directory") {
               New-Item -Type Directory $Dest
             }
-            New-Item -ItemType SymbolicLink -Path $Dest -Value $Src | Out-Null
+            New-Item -ItemType Junction -Path $Dest -Value $Src | Out-Null
         }
     }
 

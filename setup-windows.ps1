@@ -98,11 +98,11 @@ function Install-GUI-Apps {
         "Notion.Notion",
         "Obsidian.Obsidian"
         # 連絡
-        "SlackTechnologies.Slack"
         # "Discord.Discord",
         # "Mozilla.Thunderbird",
+        "SlackTechnologies.Slack",
+        # エンタメ
         # "Amazon.Kindle",
-        #ゲーム
         # "Valve.Steam"
     )
 
@@ -129,13 +129,16 @@ function Setup-Symlinks {
 
     # Helper function to create symlink
     function Link-File {
-        param($Src, $Dest)
+        param($Src, $Dest, $DestType = "File")
         if (Test-Path $Dest) {
             Write-Host "  Skipping $Dest (already exists)" -ForegroundColor DarkGray
         }
         else {
             Write-Host "  Linking $Dest -> $Src"
-            New-Item -ItemType SymbolicLink -Path $Dest -Value $Src | Out-Null
+            if ($DestType -eq "Directory") {
+              New-Item -Type Directory $Dest
+            }
+            New-Item -ItemType Junction -Path $Dest -Value $Src | Out-Null
         }
     }
 
@@ -200,6 +203,9 @@ function Setup-Symlinks {
 
     # lazygit
     Link-File -Src "$dotfiles\git\lazygit" -Dest "$env:LOCALAPPDATA\lazygit"
+
+    # gemini
+    Link-File -Src "$dotfiles\ai-agents\gemini" -Dest "$env:USERPROFILE\.gemini" -DestType Directory
 }
 
 # --- Main Execution ---

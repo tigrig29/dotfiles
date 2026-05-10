@@ -14,7 +14,7 @@ config.default_prog = { "pwsh.exe" }
 config.color_scheme = "Kanagawa (Gogh)"
 
 -- ウィンドウ設定
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE | RESIZE"
 config.window_background_opacity = 0.9
 config.initial_cols = 204
 config.initial_rows = 48

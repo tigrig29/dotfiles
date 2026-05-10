@@ -34,10 +34,14 @@
   "model": {
     "name": "auto-gemini-3"
   },
-  "contextFileName": [
-    "AGENTS.md",
-    "GEMINI.md"
-  ],
+  "context": {
+    "fileName": [
+      "GEMINI.md",
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".github/copilot-instructions.md"
+    ]
+  },
   "experimental": {
     "enableAgents": true,
     "worktrees": true

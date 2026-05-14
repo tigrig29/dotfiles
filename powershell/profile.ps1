@@ -37,7 +37,7 @@ Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
-Set-Alias -Name gmi -Value gemini-exec
+Set-Alias -Name gmi -Value Invoke-Gemini
 Set-Alias -Name wtcd -Value Set-GitWorktreeLocation
 
 # Cmdlet =============================================================
@@ -101,7 +101,7 @@ function Invoke-HistoryFzf {
     Invoke-Expression ((Get-Content $(Get-PSReadLineOption).HistorySavePath) | fzf)
 }
 
-function gemini-exec {
+function Invoke-Gemini {
     powershell -ExecutionPolicy Bypass -Command "gemini $args"
 }
 
@@ -135,6 +135,11 @@ Set-PSReadLineKeyHandler -Chord Alt+h -ScriptBlock {
 
 Set-PSReadLineKeyHandler -Chord Alt+l -ScriptBlock { 
     Invoke-HistoryFzf
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
+}
+
+Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock { 
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert('gmi -y')
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 

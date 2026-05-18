@@ -39,6 +39,7 @@ function Install-Scoop {
     scoop bucket add extras  # For GUI apps
     scoop bucket add versions  # For alternative versions
     scoop bucket add nerd-fonts  # For fonts like Hack-NF
+    scoop bucket add mo-san https://github.com/mo-san/scoop-bucket # For HackGen
 }
 
 function Install-CLI-Tools {
@@ -62,7 +63,8 @@ function Install-CLI-Tools {
         "delta",      # git diff viewer
         "zoxide",     # cd replacement
         "rustup",
-        "python"
+        "python",
+        "font-hackgen-console-nf"
     )
 
     foreach ($app in $apps) {

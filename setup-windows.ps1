@@ -64,7 +64,8 @@ function Install-CLI-Tools {
         "zoxide",     # cd replacement
         "rustup",
         "python",
-        "font-hackgen-console-nf"
+        "font-hackgen-console-nf",
+        "zenhan"
     )
 
     foreach ($app in $apps) {

@@ -39,6 +39,7 @@ Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
 Set-Alias -Name gmi -Value Invoke-Gemini
 Set-Alias -Name wtcd -Value Set-GitWorktreeLocation
+Set-Alias -Name memo -Value Open-Memo
 
 # Cmdlet =============================================================
 
@@ -124,6 +125,23 @@ function Set-GitWorktreeLocation {
         $targetPath = $selected.Split("`t")[0]
         Set-Location $targetPath
     }
+}
+function Open-Memo {
+    # メモの保存先ディレクトリ（必要に応じてパスを変更してください）
+    $memo_dir = "$HOME\memos"
+
+    # ディレクトリが存在しない場合は自動作成
+    if (-not (Test-Path $memo_dir)) {
+        New-Item -ItemType Directory -Force -Path $memo_dir | Out-Null
+    }
+
+    # ファイル名を今日の日付にする（例: 2026-05-18.md）
+    $date_str = Get-Date -Format "yyyy-MM-dd"
+    $filepath = Join-Path -Path $memo_dir -ChildPath "$date_str.txt"
+
+    # 起動待ち時間を無くすためにプラグインを読み込まず（--clean）起動
+    # 開いた瞬間にインサートモードに入る（+startinsert）
+    & nvim $filepath
 }
 
 # KeyBindings =============================================================

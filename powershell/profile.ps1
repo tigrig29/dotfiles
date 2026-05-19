@@ -167,10 +167,13 @@ Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock {
 # Module =============================================================
 
 # oh-my-posh
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/emodipt-extend.omp.json" | Invoke-Expression
+$omp_cache = "$env:TEMP\oh-my-posh-cache.ps1"
+if (-not (Test-Path $omp_cache) -or (Get-Item $omp_cache).LastWriteTime -lt (Get-Date).AddDays(-1)) {
+    # キャッシュがない、または古い場合は再生成
+    oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/emodipt-extend.omp.json" > $omp_cache
+}
+. $omp_cache
 
 # PoshGit
 Import-Module posh-git
 
-# ファイルやフォルダのアイコン表示
-Import-Module -Name Terminal-Icons

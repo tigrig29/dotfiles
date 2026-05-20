@@ -170,10 +170,35 @@ Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock {
 $omp_cache = "$env:TEMP\oh-my-posh-cache.ps1"
 if (-not (Test-Path $omp_cache) -or (Get-Item $omp_cache).LastWriteTime -lt (Get-Date).AddDays(-1)) {
     # キャッシュがない、または古い場合は再生成
-    oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/emodipt-extend.omp.json" > $omp_cache
+    oh-my-posh init pwsh --config "$PSScriptRoot/emodipt-extend.omp.json" > $omp_cache
 }
 . $omp_cache
 
-# PoshGit
-Import-Module posh-git
+# Wrap the prompt function to dynamically set GITHUB_USER environment variable
+$originalPrompt = $function:prompt
+function global:prompt {
+    $hostsPath = "$env:APPDATA\GitHub CLI\hosts.yml"
+    if (Test-Path $hostsPath) {
+        $content = Get-Content $hostsPath -Raw
+        if ($content -match '(?m)^\s*user:\s*(\S+)') {
+            $env:GITHUB_USER = $Matches[1]
+        } else {
+            $env:GITHUB_USER = $null
+        }
+    } else {
+        $env:GITHUB_USER = $null
+    }
+    & $originalPrompt
+}
+
+# PoshGit (Lazy loaded on first Tab completion of git or g)
+Register-ArgumentCompleter -CommandName 'git', 'g' -Native -ScriptBlock {
+    param($wordToComplete, $commandAst, $cursorPosition)
+    if (-not (Get-Module -Name posh-git)) {
+        Import-Module posh-git
+    }
+    $padLength = $cursorPosition - $commandAst.Extent.StartOffset
+    $textToComplete = $commandAst.ToString().PadRight($padLength, ' ').Substring(0, $padLength)
+    Expand-GitCommand $textToComplete
+}
 

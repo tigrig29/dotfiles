@@ -171,6 +171,15 @@ if (-not (Test-Path $omp_cache) -or (Get-Item $omp_cache).LastWriteTime -lt (Get
 }
 . $omp_cache
 
-# PoshGit
-Import-Module posh-git
+# PoshGit (Lazy loaded on first Tab completion of git or g)
+Register-ArgumentCompleter -CommandName 'git', 'g' -Native -ScriptBlock {
+    param($wordToComplete, $commandAst, $cursorPosition)
+    if (-not (Get-Module -Name posh-git)) {
+        Import-Module posh-git
+    }
+    $padLength = $cursorPosition - $commandAst.Extent.StartOffset
+    $textToComplete = $commandAst.ToString().PadRight($padLength, ' ').Substring(0, $padLength)
+    Expand-GitCommand $textToComplete
+}
+
 

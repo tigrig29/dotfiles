@@ -40,7 +40,6 @@ Set-Alias -Name dnr -Value Invoke-DotnetRun -Option None
 Set-Alias -Name lsn -Value Get-ChildItem-Name-Only -Option None
 Set-Alias -Name sln -Value Open-CurrentSln -Option None
 Set-Alias -Name uni -Value Open-UnityEditor -Option None
-Set-Alias -Name gmi -Value Invoke-Gemini
 Set-Alias -Name wtcd -Value Set-GitWorktreeLocation
 Set-Alias -Name memo -Value Open-Memo
 
@@ -105,10 +104,6 @@ function Invoke-HistoryFzf {
     Invoke-Expression ((Get-Content $(Get-PSReadLineOption).HistorySavePath) | fzf)
 }
 
-function Invoke-Gemini {
-    powershell -ExecutionPolicy Bypass -Command "gemini $args"
-}
-
 function Set-GitWorktreeLocation {
     <#
     .SYNOPSIS
@@ -129,6 +124,7 @@ function Set-GitWorktreeLocation {
         Set-Location $targetPath
     }
 }
+
 function Open-Memo {
     # メモの保存先ディレクトリ（必要に応じてパスを変更してください）
     $memo_dir = "$HOME\memos"
@@ -160,7 +156,7 @@ Set-PSReadLineKeyHandler -Chord Alt+l -ScriptBlock {
 }
 
 Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock { 
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert('gmi -y')
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert('agy --dangerously-skip-permissions')
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 

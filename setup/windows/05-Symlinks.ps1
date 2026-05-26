@@ -28,9 +28,6 @@ function Setup-Symlinks {
     # WezTerm (Using XDG standard path)
     Link-File -Src "$dotfiles\wezterm" -Dest "$config\wezterm"
 
-    # Starship
-    Link-File -Src "$dotfiles\starship.toml" -Dest "$config\starship.toml"
-
     # PowerShell Profile
     # $PROFILE is usually Documents\PowerShell\Microsoft.PowerShell_profile.ps1
     $psDir = Split-Path $PROFILE

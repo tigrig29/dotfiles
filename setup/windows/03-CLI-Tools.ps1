@@ -33,4 +33,7 @@ function Install-CLI-Tools {
             Write-Host "$app is already installed."
         }
     }
+
+    Write-Host "`nInstalling antigravity cli..."
+    irm https://antigravity.google/cli/install.ps1 | iex
 }

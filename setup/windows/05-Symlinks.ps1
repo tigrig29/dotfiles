@@ -1,7 +1,8 @@
 function Setup-Symlinks {
     Write-Host "`n[7/7] Linking Dotfiles..." -ForegroundColor Cyan
 
-    $dotfiles = Split-Path -Parent $PSCommandPath
+    # 05-Symlinks.ps1 is in setup\windows, so we go up 3 levels to get the repository root
+    $dotfiles = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSCommandPath))
     $config = "$env:USERPROFILE\.config"
 
     if (-not (Test-Path $config)) { New-Item -ItemType Directory -Path $config | Out-Null }

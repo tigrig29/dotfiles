@@ -4,7 +4,7 @@
 $ErrorActionPreference = "Stop"
 
 function Install-Scoop {
-    Write-Host "`n[1/4] Setting up Scoop..." -ForegroundColor Cyan
+    Write-Host "`n[1/7] Setting up Scoop..." -ForegroundColor Cyan
     if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
         Write-Host "Installing Scoop..."
         # Check if running as administrator
@@ -34,8 +34,38 @@ function Install-Scoop {
     else {
         Write-Host "Scoop is already installed."
     }
+}
 
-    Write-Host "Adding Scoop buckets..."
+function Install-BaseApps {
+    Write-Host "`n[2/7] Installing Base apps (git, pwsh) via Scoop..." -ForegroundColor Cyan
+    $apps = @("git", "pwsh")
+    foreach ($app in $apps) {
+        if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
+            Write-Host "Installing $app..."
+            scoop install $app
+        }
+        else {
+            Write-Host "$app is already installed."
+        }
+    }
+}
+
+function Ensure-Pwsh {
+    Write-Host "`n[3/7] Checking PowerShell Version..." -ForegroundColor Cyan
+    if ($PSVersionTable.PSEdition -ne "Core") {
+        Write-Host "Currently running in Windows PowerShell ($($PSVersionTable.PSVersion.ToString()))." -ForegroundColor Yellow
+        Write-Host "pwsh (PowerShell Core) has been installed via Scoop." -ForegroundColor Yellow
+        Write-Host "Please restart your terminal or run this script again in pwsh to continue the setup." -ForegroundColor Yellow
+        Write-Host "Command to run: pwsh -File `"$PSCommandPath`"" -ForegroundColor Cyan
+        exit
+    }
+    else {
+        Write-Host "Running in pwsh ($($PSVersionTable.PSVersion.ToString())). Continuing..."
+    }
+}
+
+function Add-ScoopBuckets {
+    Write-Host "`n[4/7] Adding Scoop buckets..." -ForegroundColor Cyan
     scoop bucket add extras  # For GUI apps
     scoop bucket add versions  # For alternative versions
     scoop bucket add nerd-fonts  # For fonts like Hack-NF
@@ -43,10 +73,9 @@ function Install-Scoop {
 }
 
 function Install-CLI-Tools {
-    Write-Host "`n[2/4] Installing CLI tools via Scoop..." -ForegroundColor Cyan
+    Write-Host "`n[5/7] Installing CLI tools via Scoop..." -ForegroundColor Cyan
     # If you want to add more apps, just add them to this array
     $apps = @(
-        "git",
         "gh",
         "ghq",
         "nvm",
@@ -80,7 +109,7 @@ function Install-CLI-Tools {
 }
 
 function Install-GUI-Apps {
-    Write-Host "`n[3/4] Installing GUI apps via Winget..." -ForegroundColor Cyan
+    Write-Host "`n[6/7] Installing GUI apps via Winget..." -ForegroundColor Cyan
 
     $apps = @(
         # 基盤
@@ -123,7 +152,7 @@ function Install-GUI-Apps {
 }
 
 function Setup-Symlinks {
-    Write-Host "`n[4/4] Linking Dotfiles..." -ForegroundColor Cyan
+    Write-Host "`n[7/7] Linking Dotfiles..." -ForegroundColor Cyan
 
     $dotfiles = Split-Path -Parent $PSCommandPath
     $config = "$env:USERPROFILE\.config"
@@ -214,6 +243,9 @@ function Setup-Symlinks {
 # --- Main Execution ---
 
 Install-Scoop
+Install-BaseApps
+Ensure-Pwsh
+Add-ScoopBuckets
 Install-CLI-Tools
 Install-GUI-Apps
 Setup-Symlinks

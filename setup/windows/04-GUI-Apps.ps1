@@ -27,15 +27,16 @@ function Install-GUI-Apps {
         "Valve.Steam"
     )
 
+    $installedWingetApps = winget list | Out-String
+
     foreach ($id in $apps) {
-        # Explicitly check if the app is already installed to avoid unnecessary install attempts
-        $installed = winget list --id $id | Select-String $id
-        if (-not $installed) {
-            Write-Host "Installing $id..."
-            winget install --id $id -e --source winget --accept-source-agreements --accept-package-agreements
+        # Check if the app ID exists in the pre-fetched list
+        if ($installedWingetApps -match $id) {
+            Write-Host "$id is already installed."
         }
         else {
-            Write-Host "$id is already installed."
+            Write-Host "Installing $id..."
+            winget install --id $id -e --source winget --accept-source-agreements --accept-package-agreements
         }
     }
 }

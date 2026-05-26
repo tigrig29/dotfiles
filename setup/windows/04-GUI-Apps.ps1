@@ -10,6 +10,7 @@ function Install-GUI-Apps {
         # "Brave.Brave",
         # "Mozilla.Firefox",
         # 開発
+        "JanDeDobbeleer.OhMyPosh",
         "wez.wezterm",
         "gerardog.gsudo",
         "Microsoft.VisualStudioCode",

@@ -25,6 +25,6 @@ if (-not (Get-Command gsudo -ErrorAction SilentlyContinue)) {
 }
 
 $symlinkScript = Join-Path $setupDir "05-Symlinks.ps1"
-gsudo pwsh -NoProfile -Command ". `"$symlinkScript`"; Setup-Symlinks"
+gsudo pwsh -NoProfile -ExecutionPolicy Bypass -Command ". '$symlinkScript'; Setup-Symlinks"
 
 Write-Host "`nSetup Complete! Please restart your terminal." -ForegroundColor Green

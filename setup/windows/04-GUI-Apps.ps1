@@ -18,11 +18,11 @@ function Install-GUI-Apps {
         "Figma.Figma",
         # ノート
         "Notion.Notion",
-        "Obsidian.Obsidian"
+        "Obsidian.Obsidian",
         # 連絡
         # "Discord.Discord",
         # "Mozilla.Thunderbird",
-        "SlackTechnologies.Slack",
+        "SlackTechnologies.Slack"
         # エンタメ
         # "Amazon.Kindle",
         # "Valve.Steam"

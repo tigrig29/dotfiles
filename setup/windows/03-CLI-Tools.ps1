@@ -23,8 +23,9 @@ function Install-CLI-Tools {
         "zenhan"
     )
 
+    $installedScoopApps = scoop list | Out-String
     foreach ($app in $apps) {
-        if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
+        if ($installedScoopApps -notmatch "(?im)^\s*$app\s") {
             Write-Host "Installing $app..."
             scoop install $app
         }

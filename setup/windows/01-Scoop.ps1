@@ -34,8 +34,9 @@ function Install-Scoop {
 function Install-BaseApps {
     Write-Host "`n[2/7] Installing Base apps (git, pwsh) via Scoop..." -ForegroundColor Cyan
     $apps = @("git", "pwsh")
+    $installedScoopApps = scoop list | Out-String
     foreach ($app in $apps) {
-        if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
+        if ($installedScoopApps -notmatch "(?im)^\s*$app\s") {
             Write-Host "Installing $app..."
             scoop install $app
         }

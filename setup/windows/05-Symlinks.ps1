@@ -9,16 +9,25 @@ function Setup-Symlinks {
 
     # Helper function to create symlink
     function Link-File {
-        param($Src, $Dest, $DestType = "File")
+        param($Src, $Dest)
         if (Test-Path $Dest) {
             Write-Host "  Skipping $Dest (already exists)" -ForegroundColor DarkGray
         }
+        elseif (-not (Test-Path $Src)) {
+            Write-Host "  Skipping $Dest (source does not exist)" -ForegroundColor DarkGray
+        }
         else {
             Write-Host "  Linking $Dest -> $Src"
-            if ($DestType -eq "Directory") {
-              New-Item -Type Directory $Dest
+            if ((Get-Item $Src) -is [System.IO.DirectoryInfo]) {
+                New-Item -ItemType Junction -Path $Dest -Value $Src | Out-Null
             }
-            New-Item -ItemType Junction -Path $Dest -Value $Src | Out-Null
+            else {
+                try {
+                    New-Item -ItemType SymbolicLink -Path $Dest -Value $Src -ErrorAction Stop | Out-Null
+                } catch {
+                    New-Item -ItemType HardLink -Path $Dest -Value $Src | Out-Null
+                }
+            }
         }
     }
 
@@ -82,5 +91,17 @@ function Setup-Symlinks {
     Link-File -Src "$dotfiles\git\lazygit" -Dest "$env:LOCALAPPDATA\lazygit"
 
     # gemini
-    Link-File -Src "$dotfiles\ai-agents\gemini" -Dest "$env:USERPROFILE\.gemini" -DestType Directory
+    $geminiDest = "$env:USERPROFILE\.gemini"
+    if (-not (Test-Path $geminiDest)) {
+        New-Item -ItemType Directory -Path $geminiDest | Out-Null
+    }
+
+    $geminiSrcDir = "$dotfiles\ai-agents\gemini"
+    
+    Link-File -Src "$geminiSrcDir\settings.json" -Dest "$geminiDest\settings.json"
+    Link-File -Src "$geminiSrcDir\GEMINI.md" -Dest "$geminiDest\GEMINI.md"
+    Link-File -Src "$geminiSrcDir\skills" -Dest "$geminiDest\skills"
+    Link-File -Src "$geminiSrcDir\commands" -Dest "$geminiDest\commands"
+    Link-File -Src "$geminiSrcDir\agents" -Dest "$geminiDest\agents"
+    Link-File -Src "$geminiSrcDir\.gitignore" -Dest "$geminiDest\.gitignore"
 }

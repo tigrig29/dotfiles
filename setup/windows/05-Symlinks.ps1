@@ -25,7 +25,15 @@ function Setup-Symlinks {
                 try {
                     New-Item -ItemType SymbolicLink -Path $Dest -Value $Src -ErrorAction Stop | Out-Null
                 } catch {
-                    New-Item -ItemType HardLink -Path $Dest -Value $Src | Out-Null
+                    Write-Host "    Requesting Administrator privileges via gsudo to create symbolic link..." -ForegroundColor Yellow
+                    try {
+                        # Use gsudo to elevate the symlink creation
+                        $cmd = "New-Item -ItemType SymbolicLink -Path '$Dest' -Value '$Src' -ErrorAction Stop | Out-Null"
+                        gsudo powershell -NoProfile -Command $cmd
+                    } catch {
+                        Write-Host "    Failed to create symbolic link even with gsudo." -ForegroundColor Red
+                        throw $_
+                    }
                 }
             }
         }

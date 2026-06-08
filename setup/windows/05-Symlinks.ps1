@@ -1,5 +1,5 @@
 function Setup-Symlinks {
-    Write-Host "`n[7/7] Linking Dotfiles..." -ForegroundColor Cyan
+    Write-Host "`n[7/7] ドットファイルのリンクを作成しています..." -ForegroundColor Cyan
 
     # 05-Symlinks.ps1 is in setup\windows, so we go up 3 levels to get the repository root
     $dotfiles = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSCommandPath))
@@ -7,17 +7,19 @@ function Setup-Symlinks {
 
     if (-not (Test-Path $config)) { New-Item -ItemType Directory -Path $config | Out-Null }
 
+    $elevatedCmds = New-Object System.Collections.ArrayList
+
     # Helper function to create symlink
     function Link-File {
         param($Src, $Dest)
         if (Test-Path $Dest) {
-            Write-Host "  Skipping $Dest (already exists)" -ForegroundColor DarkGray
+            Write-Host "  スキップ: $Dest (すでに存在します)" -ForegroundColor DarkGray
         }
         elseif (-not (Test-Path $Src)) {
-            Write-Host "  Skipping $Dest (source does not exist)" -ForegroundColor DarkGray
+            Write-Host "  スキップ: $Dest (リンク元が存在しません)" -ForegroundColor DarkGray
         }
         else {
-            Write-Host "  Linking $Dest -> $Src"
+            Write-Host "  リンク作成: $Dest -> $Src"
             if ((Get-Item $Src) -is [System.IO.DirectoryInfo]) {
                 New-Item -ItemType Junction -Path $Dest -Value $Src | Out-Null
             }
@@ -25,15 +27,8 @@ function Setup-Symlinks {
                 try {
                     New-Item -ItemType SymbolicLink -Path $Dest -Value $Src -ErrorAction Stop | Out-Null
                 } catch {
-                    Write-Host "    Requesting Administrator privileges via gsudo to create symbolic link..." -ForegroundColor Yellow
-                    try {
-                        # Use gsudo to elevate the symlink creation
-                        $cmd = "New-Item -ItemType SymbolicLink -Path '$Dest' -Value '$Src' -ErrorAction Stop | Out-Null"
-                        gsudo powershell -NoProfile -Command $cmd
-                    } catch {
-                        Write-Host "    Failed to create symbolic link even with gsudo." -ForegroundColor Red
-                        throw $_
-                    }
+                    Write-Host "    シンボリックリンク作成をキューに追加しました: $Dest..." -ForegroundColor Yellow
+                    $elevatedCmds.Add("New-Item -ItemType SymbolicLink -Path '$Dest' -Value '$Src' -ErrorAction Stop | Out-Null") | Out-Null
                 }
             }
         }
@@ -62,15 +57,15 @@ function Setup-Symlinks {
         }
 
         if ($content -notmatch "dotfiles\\powershell\\profile.ps1") {
-            Write-Host "  Appending to existing PowerShell profile..."
+            Write-Host "  既存のPowerShellプロファイルに追記しています..."
             Add-Content -Path $PROFILE -Value "`n$loadCmd"
         }
         else {
-            Write-Host "  PowerShell profile already configured." -ForegroundColor DarkGray
+            Write-Host "  PowerShellプロファイルはすでに設定されています。" -ForegroundColor DarkGray
         }
     }
     else {
-        Write-Host "  Creating PowerShell profile..."
+        Write-Host "  PowerShellプロファイルを作成しています..."
         Set-Content -Path $PROFILE -Value $loadCmd
     }
 
@@ -83,15 +78,15 @@ function Setup-Symlinks {
         $content = Get-Content $gitconfigPath -Raw
 
         if ($content -notmatch "dotfiles\\git\\common.gitconfig") {
-            Write-Host "  Appending to existing .gitconfig..."
+            Write-Host "  既存の .gitconfig に追記しています..."
             $includeSetting + "`n`n" + $content | Out-File $gitconfigPath -Encoding UTF8 -NoNewLine
         }
         else {
-            Write-Host "  .gitconfig already configured." -ForegroundColor DarkGray
+            Write-Host "  .gitconfig はすでに設定されています。" -ForegroundColor DarkGray
         }
     }
     else {
-        Write-Host "  Creating .gitconfig..."
+        Write-Host "  .gitconfig を作成しています..."
         Set-Content -Path $gitconfigPath -Value $includeSetting
     }
 
@@ -111,4 +106,25 @@ function Setup-Symlinks {
     Link-File -Src "$geminiSrcDir\skills" -Dest "$geminiDest\skills"
     Link-File -Src "$geminiSrcDir\commands" -Dest "$geminiDest\commands"
     Link-File -Src "$geminiSrcDir\agents" -Dest "$geminiDest\agents"
+
+    # agents
+    $agentsDest = "$env:USERPROFILE\.agents"
+    if (-not (Test-Path $agentsDest)) {
+        New-Item -ItemType Directory -Path $agentsDest | Out-Null
+    }
+    
+    Link-File -Src "$geminiSrcDir\skills" -Dest "$agentsDest\skills"
+
+    if ($elevatedCmds.Count -gt 0) {
+        Write-Host "`n  キューに追加されたシンボリックリンクを作成するため、gsudo経由で管理者権限を要求しています..." -ForegroundColor Yellow
+        $cmdBlock = $elevatedCmds -join "; "
+        $encodedCmd = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($cmdBlock))
+        try {
+            gsudo powershell -NoProfile -EncodedCommand $encodedCmd
+            Write-Host "  キューに追加されたシンボリックリンクの作成に成功しました。" -ForegroundColor Green
+        } catch {
+            Write-Host "  gsudoを使用したシンボリックリンクの作成に失敗しました。" -ForegroundColor Red
+            throw $_
+        }
+    }
 }

@@ -111,5 +111,4 @@ function Setup-Symlinks {
     Link-File -Src "$geminiSrcDir\skills" -Dest "$geminiDest\skills"
     Link-File -Src "$geminiSrcDir\commands" -Dest "$geminiDest\commands"
     Link-File -Src "$geminiSrcDir\agents" -Dest "$geminiDest\agents"
-    Link-File -Src "$geminiSrcDir\.gitignore" -Dest "$geminiDest\.gitignore"
 }

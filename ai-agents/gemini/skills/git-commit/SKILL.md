@@ -23,19 +23,19 @@ Conventional Commits 仕様を使用して、標準化されたセマンティ�
 
 ## コミットタイプ
 
-| タイプ     | 目的                           |
-| ---------- | ------------------------------ |
-| `feat`     | 新機能                         |
-| `fix`      | バグ修正                       |
-| `docs`     | ドキュメントのみの変更         |
-| `style`    | フォーマット/スタイル（ロジック変更なし） |
+| タイプ     | 目的                                              |
+| ---------- | ------------------------------------------------- |
+| `feat`     | 新機能                                            |
+| `fix`      | バグ修正                                          |
+| `docs`     | ドキュメントのみの変更                            |
+| `style`    | フォーマット/スタイル（ロジック変更なし）         |
 | `refactor` | コードのリファクタリング（機能追加/バグ修正なし） |
-| `perf`     | パフォーマンス改善             |
-| `test`     | テストの追加/更新               |
-| `build`    | ビルドシステム/依存関係の変更   |
-| `ci`       | CI/設定の変更                   |
-| `chore`    | メンテナンス/その他             |
-| `revert`   | コミットの取り消し (revert)    |
+| `perf`     | パフォーマンス改善                                |
+| `test`     | テストの追加/更新                                 |
+| `build`    | ビルドシステム/依存関係の変更                     |
+| `ci`       | CI/設定の変更                                     |
+| `chore`    | メンテナンス/その他                               |
+| `revert`   | コミットの取り消し (revert)                       |
 
 ## 破壊的変更 (Breaking Changes)
 
@@ -92,23 +92,18 @@ git add -p
 
 ### 4. コミットの実行
 
-**注意**: Windows (PowerShell) 環境で日本語のコミットメッセージを作成する際は、文字化けを防止するため、直接 `git commit -m` に引数として渡すのではなく、メッセージを一時ファイルに `-Encoding utf8` で書き込んでから `git commit -F` を使用してください。
-
 ```powershell
-# メッセージを一時ファイルに書き込む
-@"
+# 1行の場合
+git commit -m "<type>(scope): <description>"
+
+# 本文/フッターを含む複数行の場合
+git commit -m @"
 <type>(scope): <description>
 
 <optional body>
 
 <optional footer>
-"@ | Out-File -FilePath .\.git\COMMIT_EDITMSG_TEMP -Encoding utf8
-
-# ファイルを指定してコミット
-git commit -F .\.git\COMMIT_EDITMSG_TEMP
-
-# 一時ファイルを削除
-Remove-Item .\.git\COMMIT_EDITMSG_TEMP
+"@
 ```
 
 ## ベストプラクティス
@@ -125,4 +120,3 @@ Remove-Item .\.git\COMMIT_EDITMSG_TEMP
 - ユーザーからの要求がない限り、フック (`--no-verify`) は **絶対に** スキップしないでください
 - main/master ブランチへの強制プッシュ (`force push`) は **絶対に** 行わないでください
 - フックが原因でコミットが失敗した場合は、問題を修正して **新しい** コミットを作成してください (`amend` は使用しない)
-- AIエージェントによる自動的なマージ (`git merge`) は禁止されています。マージの実行には必ずユーザーの明示的な承認を求めてください

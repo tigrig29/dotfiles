@@ -20,7 +20,7 @@ config.initial_cols = 204
 config.initial_rows = 48
 
 -- フォントサイズ
-config.font_size = 10.0
+config.font_size = 9.0
 config.font = wezterm.font("HackGen Console NF")
 
 -- 右側ステータス

@@ -21,12 +21,12 @@ PR を作成する際は、タイトルと本文を動的に生成し、ファ�
 直接文字列を引数に渡すと、日本語が文字化けしたり、変数が展開されなかったりすることがあります。以下のパターンを推奨します。
 
 ```powershell
-$prBody = @"
+$prBody = @'
 # Title: [PBI-XXX] タイトル
 
 ## 概要
 ...（日本語の本文）...
-"@;
+'@;
 # UTF-8 で一時ファイルに書き出す
 Set-Content -Path "pr_body_edit.txt" -Value $prBody -Encoding utf8;
 # ファイル経由で編集

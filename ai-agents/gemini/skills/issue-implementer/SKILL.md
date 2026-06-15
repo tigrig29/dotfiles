@@ -59,7 +59,7 @@ git push -u origin $branchName
 Windows (PowerShell) 環境での文字化けを防ぐため、以下のように一時ファイルを経由して `gh pr create` を実行してください。
 
 ```powershell
-$prBody = @"
+$prBody = @'
 ## 関連Issue
 Resolves #12
 
@@ -71,7 +71,7 @@ Resolves #12
 1. アプリケーションを起動する（\`npm run dev\` など）。
 2. 動作確認すべき画面やAPIへアクセスする。
 3. ...
-"@;
+'@;
 
 Set-Content -Path "pr_body.txt" -Value $prBody -Encoding utf8;
 gh pr create --title "feature: Issue #12 の実装" --body-file pr_body.txt --base main;

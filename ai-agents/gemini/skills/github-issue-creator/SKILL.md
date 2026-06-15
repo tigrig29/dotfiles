@@ -37,14 +37,14 @@ Windows 環境で日本語を含む Issue を作成する際は、コマンド�
 ### 推奨コマンドパターン
 
 ```powershell
-$issueBody = @"
+$issueBody = @'
 ## 概要
 ここにIssueの概要を記述します。
 
 ## 詳細
 - 詳細1
 - 詳細2
-"@;
+'@;
 
 # UTF-8 で一時ファイルに書き込む
 Set-Content -Path "issue_body.txt" -Value $issueBody -Encoding utf8;

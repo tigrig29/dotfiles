@@ -92,18 +92,8 @@ git add -p
 
 ### 4. コミットの実行
 
-```powershell
-# 1行の場合
-git commit -m "<type>(scope): <description>"
-
-# 本文/フッターを含む複数行の場合
-git commit -m @"
-<type>(scope): <description>
-
-<optional body>
-
-<optional footer>
-"@
+```bash
+git commit -m "<type>(scope): <description>" -m "<optional body>" -m "<optional footer>"
 ```
 
 ## ベストプラクティス

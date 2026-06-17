@@ -41,7 +41,6 @@ git worktree add $worktreePath -b $branchName
 ### 4. コミットとプッシュ
 実装と動作確認が完了したら、変更をコミットしてリモートへプッシュします。
 - コミットには `git-commit` スキルを活用し、Conventional Commitsに従った適切なメッセージを（日本語で）作成してください。
-- ユーザー指示のルールに従い、Windows環境の文字化け防止のため、コミットメッセージは必ず一時ファイル（UTF-8）を経由して `git commit -F` を使用すること。
 
 ```powershell
 git push -u origin $branchName
@@ -59,7 +58,7 @@ git push -u origin $branchName
 Windows (PowerShell) 環境での文字化けを防ぐため、以下のように一時ファイルを経由して `gh pr create` を実行してください。
 
 ```powershell
-$prBody = @"
+$prBody = @'
 ## 関連Issue
 Resolves #12
 
@@ -71,7 +70,7 @@ Resolves #12
 1. アプリケーションを起動する（\`npm run dev\` など）。
 2. 動作確認すべき画面やAPIへアクセスする。
 3. ...
-"@;
+'@;
 
 Set-Content -Path "pr_body.txt" -Value $prBody -Encoding utf8;
 gh pr create --title "feature: Issue #12 の実装" --body-file pr_body.txt --base main;

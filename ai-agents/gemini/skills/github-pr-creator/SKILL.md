@@ -46,9 +46,9 @@ Windows 環境で日本語を含む PR を作成・編集する際は、直接�
 
 ### 推奨コマンドパターン
 ```powershell
-$prBody = @"
+$prBody = @'
 ...（日本語の本文）...
-"@;
+'@;
 Set-Content -Path "pr_body.txt" -Value $prBody -Encoding utf8;
 gh pr edit <number> --body-file pr_body.txt;
 Remove-Item "pr_body.txt"

@@ -41,7 +41,6 @@ git worktree add $worktreePath -b $branchName
 ### 4. コミットとプッシュ
 実装と動作確認が完了したら、変更をコミットしてリモートへプッシュします。
 - コミットには `git-commit` スキルを活用し、Conventional Commitsに従った適切なメッセージを（日本語で）作成してください。
-- ユーザー指示のルールに従い、Windows環境の文字化け防止のため、コミットメッセージは必ず一時ファイル（UTF-8）を経由して `git commit -F` を使用すること。
 
 ```powershell
 git push -u origin $branchName

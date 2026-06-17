@@ -92,19 +92,8 @@ git add -p
 
 ### 4. コミットの実行
 
-```powershell
-$commitMsg = @'
-<type>(scope): <description>
-
-<optional body>
-
-<optional footer>
-'@
-
-# 文字化け防止のため、UTF-8で一時ファイルに書き込んでからコミットする
-Set-Content -Path "commit_msg.txt" -Value $commitMsg -Encoding utf8
-git commit -F commit_msg.txt
-Remove-Item "commit_msg.txt"
+```bash
+git commit -m "<type>(scope): <description>" -m "<optional body>" -m "<optional footer>"
 ```
 
 ## ベストプラクティス

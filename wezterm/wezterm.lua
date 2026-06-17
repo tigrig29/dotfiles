@@ -23,6 +23,16 @@ config.initial_rows = 48
 config.font_size = 9.0
 config.font = wezterm.font("HackGen Console NF")
 
+-- イタリック（斜体）で日本語が小さくなる問題への対策
+-- Neovimのコメント等でイタリックが指定された際、HackGenにイタリック体がないため
+-- 別のフォントがフォールバックとして選ばれ、文字サイズが崩れるのを防ぎます。
+config.font_rules = {
+	{
+		italic = true,
+		font = wezterm.font("HackGen Console NF", { italic = false }),
+	},
+}
+
 -- 右側ステータス
 wezterm.on("update-right-status", function(window, pane)
 	local date = wezterm.strftime("%H:%M:%S")

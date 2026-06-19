@@ -10,7 +10,7 @@ function Setup-AutoHotkey {
         return
     }
 
-    $taskName = "Start AutoHotkey"
+    $taskName = "AutoHotkey"
     
     # 実行アクション
     $action = New-ScheduledTaskAction -Execute $ahkPath

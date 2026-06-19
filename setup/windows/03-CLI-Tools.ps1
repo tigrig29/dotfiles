@@ -1,4 +1,4 @@
-function Install-CLI-Tools {
+﻿function Install-CLI-Tools {
     Write-Host "`n[5/7] Installing CLI tools via Scoop..." -ForegroundColor Cyan
     # If you want to add more apps, just add them to this array
     $apps = @(

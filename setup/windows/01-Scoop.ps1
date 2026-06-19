@@ -1,4 +1,4 @@
-function Install-Scoop {
+﻿function Install-Scoop {
     Write-Host "`n[1/7] Setting up Scoop..." -ForegroundColor Cyan
     if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
         Write-Host "Installing Scoop..."

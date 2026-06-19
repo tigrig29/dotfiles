@@ -1,4 +1,4 @@
-function Setup-Symlinks {
+﻿function Setup-Symlinks {
     Write-Host "`n[7/7] ドットファイルのリンクを作成しています..." -ForegroundColor Cyan
 
     # 05-Symlinks.ps1 is in setup\windows, so we go up 3 levels to get the repository root

@@ -1,4 +1,4 @@
-function Setup-AutoHotkey {
+﻿function Setup-AutoHotkey {
     Write-Host "Setting up AutoHotkey..." -ForegroundColor Cyan
 
     # dotfiles直下のAutoHotkeyディレクトリのパスを取得

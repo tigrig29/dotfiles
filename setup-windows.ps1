@@ -1,4 +1,4 @@
-# Dotfiles Setup Script for Windows
+﻿# Dotfiles Setup Script for Windows
 # Combines Scoop (CLI) and Winget (GUI)
 
 $ErrorActionPreference = "Stop"

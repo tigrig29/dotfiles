@@ -1,4 +1,4 @@
-function Install-GUI-Apps {
+﻿function Install-GUI-Apps {
     Write-Host "`n[6/7] Installing GUI apps via Winget..." -ForegroundColor Cyan
 
     $apps = @(

@@ -1,4 +1,4 @@
-﻿function Install-GUI-Apps {
+function Install-GUI-Apps {
     Write-Host "`n[6/7] Installing GUI apps via Winget..." -ForegroundColor Cyan
 
     $apps = @(
@@ -28,7 +28,7 @@
         "Valve.Steam"
     )
 
-    $installedWingetApps = winget list | Out-String
+    $installedWingetApps = winget list --accept-source-agreements | Out-String
 
     foreach ($id in $apps) {
         # Check if the app ID exists in the pre-fetched list

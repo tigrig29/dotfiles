@@ -7,7 +7,7 @@ function Install-GUI-Apps {
         "Microsoft.PowerToys",
         # ブラウザ
         "Google.Chrome",
-        # "Brave.Brave",
+        "Brave.Brave",
         # "Mozilla.Firefox",
         # 開発
         "JanDeDobbeleer.OhMyPosh",

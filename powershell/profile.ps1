@@ -16,6 +16,9 @@ $env:POWERSHELL_UPDATECHECK = 'Off'
 # PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
 Set-PSReadlineOption -PredictionViewStyle ListView
 
+# Vim モードを有効化
+Set-PSReadLineOption -EditMode Vi
+
 # 文字コードを UTF-8 に統一
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 

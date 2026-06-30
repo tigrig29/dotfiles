@@ -39,10 +39,14 @@ return {
 		{ key = "phys:RightArrow", mods = "ALT|SHIFT", action = act({ AdjustPaneSize = { "Right", 1 } }) },
 		{ key = "phys:UpArrow", mods = "ALT|SHIFT", action = act({ AdjustPaneSize = { "Up", 1 } }) },
 		{ key = "phys:DownArrow", mods = "ALT|SHIFT", action = act({ AdjustPaneSize = { "Down", 1 } }) },
+		
+		-- コピーモードに入る
+		{ key = "c", mods = "LEADER", action = act.ActivateCopyMode },
+		{ key = "x", mods = "CTRL|SHIFT", action = act.ActivateCopyMode },
 	},
 
-	key_tables = {
-		copy_mode = {},
-		search_mode = {},
-	},
+	-- WezTerm はデフォルトで強力なコピーモード（Vimライクな移動・選択・ヤンク）を持っています。
+	-- copy_mode = {} のように空のテーブルを指定するとデフォルトが上書きされて何もできなくなるため、
+	-- 削除してデフォルトを活かします。
+	key_tables = {},
 }

@@ -18,6 +18,7 @@ Set-PSReadlineOption -PredictionViewStyle ListView
 
 # Vim モードを有効化
 Set-PSReadLineOption -EditMode Vi
+Set-PSReadLineOption -ViModeIndicator Cursor
 
 # 文字コードを UTF-8 に統一
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'

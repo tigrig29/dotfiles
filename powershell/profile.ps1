@@ -16,6 +16,12 @@ $env:POWERSHELL_UPDATECHECK = 'Off'
 # PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
 Set-PSReadlineOption -PredictionViewStyle ListView
 
+# Vim/Neovim の内蔵ターミナル以外の場合のみ Vim モードを有効にする
+if (-not $env:NVIM -and -not $env:VIM) {
+    Set-PSReadLineOption -EditMode Vi
+    Set-PSReadLineOption -ViModeIndicator Cursor
+}
+
 # 文字コードを UTF-8 に統一
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 

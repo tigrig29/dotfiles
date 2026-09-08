@@ -161,9 +161,9 @@ Set-PSReadLineKeyHandler -Chord Alt+l -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
 }
 
-Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock { 
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert('agy --dangerously-skip-permissions')
-    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine() 
+Set-PSReadLineKeyHandler -Chord Alt+g -ScriptBlock {
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert('claude')
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
 # Module =============================================================

@@ -9,3 +9,5 @@ data
 
 .gemini/
 gha-creds-*.json
+
+git/lazygit/state.yml

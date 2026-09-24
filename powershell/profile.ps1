@@ -1,5 +1,8 @@
 # Settings =============================================================
 
+# PowerShell起動時のデフォルト作業ディレクトリ（秘書AIリポジトリ）
+Set-Location "C:\taigasato\repos\github.com\taiga-sato_t7s\shioshishio"
+
 [System.Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
 [System.Console]::InputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
 $env:LESSCHARSET = "utf-8"

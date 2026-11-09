@@ -44,7 +44,10 @@ if (-not $env:NVIM -and -not $env:VIM) {
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 # git の ssh キーが日本語ユーザー名含むユーザーフォルダ配下にあるとエラーになる件の対応
-$env:GIT_SSH_COMMAND = 'ssh -i "C:\\Users\佐藤汰架\.ssh\id_rsa" -o UserKnownHostsFile="C:\\Users\佐藤汰架\.ssh\known_hosts"'
+# そのユーザーフォルダがある PC でだけ設定する（無い PC で設定すると鍵と known_hosts が見つからず失敗する）
+if (Test-Path 'C:\Users\佐藤汰架\.ssh') {
+    $env:GIT_SSH_COMMAND = 'ssh -i "C:\\Users\佐藤汰架\.ssh\id_rsa" -o UserKnownHostsFile="C:\\Users\佐藤汰架\.ssh\known_hosts"'
+}
 
 # Aliases =============================================================
 

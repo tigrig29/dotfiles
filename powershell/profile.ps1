@@ -1,7 +1,22 @@
 # Settings =============================================================
 
-# PowerShell起動時のデフォルト作業ディレクトリ（秘書AIリポジトリ）
-Set-Location "C:\taigasato\repos\github.com\taiga-sato_t7s\shioshishio"
+# PowerShell起動時の作業ディレクトリ
+# 前回終了時のディレクトリを記憶しておき、次回起動時はそこへ移動する。
+# 記録がまだない場合（初回起動時など）のみ、デフォルトの作業ディレクトリ（秘書AIリポジトリ）へ移動する。
+$script:LastLocationFile = "$env:LOCALAPPDATA\PowerShell\last-location.txt"
+$defaultStartDir = "C:\taigasato\repos\github.com\taiga-sato_t7s\shioshishio"
+
+$lastLocation = $null
+if (Test-Path $script:LastLocationFile) {
+    $lastLocation = (Get-Content $script:LastLocationFile -Raw -ErrorAction SilentlyContinue)
+    if ($lastLocation) { $lastLocation = $lastLocation.Trim() }
+}
+
+if ($lastLocation -and (Test-Path $lastLocation)) {
+    Set-Location $lastLocation
+} else {
+    Set-Location $defaultStartDir
+}
 
 [System.Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
 [System.Console]::InputEncoding = [System.Text.Encoding]::GetEncoding("utf-8")
@@ -193,6 +208,16 @@ function global:prompt {
     } else {
         $env:GITHUB_USER = $null
     }
+
+    # 現在の作業ディレクトリを記録（次回起動時の復元用）
+    try {
+        $lastLocationDir = Split-Path -Parent $script:LastLocationFile
+        if (-not (Test-Path $lastLocationDir)) {
+            New-Item -ItemType Directory -Force -Path $lastLocationDir | Out-Null
+        }
+        Set-Content -Path $script:LastLocationFile -Value (Get-Location).Path -ErrorAction SilentlyContinue
+    } catch {}
+
     & $originalPrompt
 }
 

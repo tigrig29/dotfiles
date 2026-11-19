@@ -11,7 +11,11 @@ Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadlineOption -BellStyle None
 
 # Disable UpdateCheck
+# ※プロファイル読み込み前の起動初期化フェーズでのクラッシュを防ぐため、OSユーザー環境変数にも設定・同期
 $env:POWERSHELL_UPDATECHECK = 'Off'
+if ([System.Environment]::GetEnvironmentVariable("POWERSHELL_UPDATECHECK", "User") -ne "Off") {
+    [System.Environment]::SetEnvironmentVariable("POWERSHELL_UPDATECHECK", "Off", "User")
+}
 
 # PowerShell の入力補完形式を ListView (下部に最近の履歴を表示) に変更
 Set-PSReadlineOption -PredictionViewStyle ListView
